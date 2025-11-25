@@ -1,0 +1,4 @@
+{
+  "POST /apply_coupon": {"code": "string"},
+  "POST /submit_order": {"name": "string", "email": "string", "address": "string"}
+}

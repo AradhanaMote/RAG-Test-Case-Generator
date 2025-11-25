@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>E-Shop Checkout</title>
+  <style>
+    .error { color: red; }
+    .success { color: green; }
+    .btn-pay { background: green; color: white; padding: 10px 20px; border: none; }
+  </style>
+</head>
+<body>
+  <h1>E-Shop Checkout</h1>
+  <div id="items">
+    <div class="item" data-id="1">
+      <span class="name">T-shirt</span>
+      <button class="add-to-cart" id="add-1">Add to Cart</button>
+      <span class="price">20.00</span>
+    </div>
+    <div class="item" data-id="2">
+      <span class="name">Mug</span>
+      <button class="add-to-cart" id="add-2">Add to Cart</button>
+      <span class="price">8.00</span>
+    </div>
+    <div class="item" data-id="3">
+      <span class="name">Cap</span>
+      <button class="add-to-cart" id="add-3">Add to Cart</button>
+      <span class="price">12.00</span>
+    </div>
+  </div>
+
+  <h2>Cart Summary</h2>
+  <div id="cart">
+    <div>Item quantity: <input id="qty-1" type="number" value="0" min="0"></div>
+    <div>Item quantity: <input id="qty-2" type="number" value="0" min="0"></div>
+    <div>Item quantity: <input id="qty-3" type="number" value="0" min="0"></div>
+    <div>Total: $<span id="total">0.00</span></div>
+  </div>
+
+  <h3>Discount code</h3>
+  <input id="discount" type="text" placeholder="Enter code">
+  <button id="apply-discount">Apply</button>
+  <div id="discount-msg" class="error"></div>
+
+  <h3>User Details</h3>
+  <form id="checkout-form">
+    <div>
+      <label>Name</label>
+      <input id="name" name="name" required>
+      <span id="name-err" class="error"></span>
+    </div>
+    <div>
+      <label>Email</label>
+      <input id="email" name="email" required>
+      <span id="email-err" class="error"></span>
+    </div>
+    <div>
+      <label>Address</label>
+      <input id="address" name="address" required>
+      <span id="address-err" class="error"></span>
+    </div>
+
+    <h4>Shipping method</h4>
+    <label><input type="radio" name="shipping" value="standard" checked> Standard</label>
+    <label><input type="radio" name="shipping" value="express"> Express</label>
+
+    <h4>Payment method</h4>
+    <label><input type="radio" name="payment" value="card" checked> Credit Card</label>
+    <label><input type="radio" name="payment" value="paypal"> PayPal</label>
+
+    <button type="button" id="pay-now" class="btn-pay">Pay Now</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    const prices = {1:20,2:8,3:12};
+    function calcTotal(){
+      const q1 = parseInt(document.getElementById('qty-1').value)||0;
+      const q2 = parseInt(document.getElementById('qty-2').value)||0;
+      const q3 = parseInt(document.getElementById('qty-3').value)||0;
+      let total = q1*prices[1] + q2*prices[2] + q3*prices[3];
+      document.getElementById('total').textContent = total.toFixed(2);
+      return total;
+    }
+    document.querySelectorAll('input[type=number]').forEach(i=>i.addEventListener('change', calcTotal));
+
+    document.getElementById('apply-discount').addEventListener('click', ()=>{
+      const code = document.getElementById('discount').value.trim();
+      const msg = document.getElementById('discount-msg');
+      const total = calcTotal();
+      if(!code){ msg.textContent = 'Enter a code'; return; }
+      if(code === 'SAVE15'){
+        const discounted = (total * 0.85).toFixed(2);
+        msg.textContent = '15% applied. New total: $' + discounted;
+        msg.className = 'success';
+      } else { msg.textContent = 'Invalid code'; msg.className='error'; }
+    });
+
+    document.getElementById('pay-now').addEventListener('click', ()=>{
+      let valid = true;
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const address = document.getElementById('address').value.trim();
+      document.getElementById('name-err').textContent = '';
+      document.getElementById('email-err').textContent = '';
+      document.getElementById('address-err').textContent = '';
+      if(!name){ document.getElementById('name-err').textContent = 'Required'; valid=false; }
+      if(!email || !/.+@.+\..+/.test(email)){ document.getElementById('email-err').textContent = 'Invalid email'; valid=false; }
+      if(!address){ document.getElementById('address-err').textContent = 'Required'; valid=false; }
+      if(valid){ document.getElementById('result').textContent = 'Payment Successful!'; document.getElementById('result').className='success'; }
+    });
+  </script>
+</body>
+</html>

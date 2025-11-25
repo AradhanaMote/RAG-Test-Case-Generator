@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+streamlit
+chromadb
+sentence-transformers
+pymupdf
+beautifulsoup4
+unstructured
+python-multipart
+selenium
+requests
+tqdm
+rich
+openai

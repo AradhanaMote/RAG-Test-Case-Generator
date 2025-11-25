@@ -1,0 +1,1 @@
+Please copy the project files from the canvas; Python environment cannot access canvas content.
