@@ -2,14 +2,18 @@ import os
 import json
 from typing import List
 from dotenv import load_dotenv
+import streamlit as st
 
 load_dotenv()
 
-print(f"API Key loaded: {os.environ.get('OPENAI_API_KEY')[:20]}..." if os.environ.get('OPENAI_API_KEY') else "API Key NOT found")
-
 
 def generate_with_llm(system_prompt: str, user_prompt: str, max_tokens: int = 512) -> str:
-    openai_key = os.environ.get('OPENAI_API_KEY')
+    # Try Streamlit secrets first (for cloud deployment)
+    try:
+        openai_key = st.secrets.get("OPENAI_API_KEY")
+    except:
+        # Fallback to environment variable (for local development)
+        openai_key = os.environ.get('OPENAI_API_KEY')
     
     if openai_key:
         try:
