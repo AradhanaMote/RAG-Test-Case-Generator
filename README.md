@@ -6,6 +6,9 @@
 ## Overview
 This project implements an autonomous QA agent designed to streamline test case creation and accelerate end-to-end web app verification. Built on Retrieval-Augmented Generation (RAG) principles, it builds a knowledge base from your requirements and generates documentation-grounded test cases. With one click, selected cases can be converted to runnable Selenium (Python) scripts.
 
+### Live Application  
+[Click here to open the app](https://ragtestcasegenerator.streamlit.app/)
+
 ### Key Features
 - **Document Upload:** Supports txt, md, and pdf support documentation, plus UI HTML.
 - **AI Test Case Generation:** Produces actionable, context-grounded test cases from your documentation.
